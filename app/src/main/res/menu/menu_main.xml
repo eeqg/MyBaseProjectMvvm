@@ -3,16 +3,21 @@
 	<item
 		android:id="@+id/home"
 		android:icon="@drawable/ic_menu_home"
-		android:title="Home"/>
+		android:title="@string/title_home"/>
 	
 	<item
 		android:id="@+id/find"
-		android:icon="@drawable/ic_menu_home"
-		android:title="Find"/>
+		android:icon="@drawable/ic_menu_find"
+		android:title="@string/title_find"/>
+	
+	<item
+		android:id="@+id/cart"
+		android:icon="@drawable/ic_menu_cart"
+		android:title="@string/title_cart"/>
 	
 	<item
 		android:id="@+id/mine"
-		android:icon="@drawable/ic_menu_home"
-		android:title="Mine"/>
+		android:icon="@drawable/ic_menu_mine"
+		android:title="@string/title_mine"/>
 
 </menu>

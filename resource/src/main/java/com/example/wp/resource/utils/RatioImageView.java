@@ -5,10 +5,11 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Path;
 import android.graphics.drawable.Drawable;
-import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
 
 import com.example.wp.resource.R;
+
+import androidx.appcompat.widget.AppCompatImageView;
 
 
 public class RatioImageView extends AppCompatImageView {

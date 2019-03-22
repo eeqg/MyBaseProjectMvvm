@@ -3,10 +3,11 @@ package com.example.wp.resource.manager;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import java.util.Stack;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 /*
  * 描述: Activity管理类

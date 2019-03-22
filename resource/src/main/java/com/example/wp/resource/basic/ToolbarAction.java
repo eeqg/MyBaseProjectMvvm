@@ -3,11 +3,12 @@ package com.example.wp.resource.basic;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.ColorInt;
-import android.support.v4.content.ContextCompat;
 import android.view.View;
 
 import com.example.wp.resource.R;
+
+import androidx.annotation.ColorInt;
+import androidx.core.content.ContextCompat;
 
 public class ToolbarAction {
 	private Drawable drawable;

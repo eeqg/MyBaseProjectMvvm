@@ -28,7 +28,7 @@
 		<item name="colorTextPrimary">@color/colorTextPrimary</item>
 		<item name="colorTextSecondary">@color/colorTextSecondary</item>
 		<item name="colorTextAssisted">@color/colorTextAssisted</item>
-		<item name="actionBarSize">40dp</item>
+		<item name="actionBarSize">46dp</item>
 	</style>
 	
 	<style name="ViewDividerVertical">

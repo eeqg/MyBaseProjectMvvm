@@ -4,16 +4,16 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.os.Build;
-import android.support.annotation.RequiresApi;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.util.ArrayMap;
-
 import java.lang.ref.SoftReference;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.WeakHashMap;
+
+import androidx.annotation.RequiresApi;
+import androidx.collection.ArrayMap;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
 
 public abstract class PermissionUtils {
 	/** 权限请求映射 */
