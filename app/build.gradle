@@ -1,0 +1,41 @@
+apply plugin: 'com.android.application'
+
+android {
+	compileSdkVersion 28
+	defaultConfig {
+		applicationId "com.example.wp.mybaseprojectmvvm"
+		minSdkVersion rootProject.ext.minSdkVersion
+		targetSdkVersion rootProject.ext.targetSdkVersion
+		versionCode rootProject.ext.versionCode
+		versionName rootProject.ext.versionName
+		testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+	}
+	buildTypes {
+		release {
+			minifyEnabled false
+			proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+		}
+	}
+	
+	dataBinding {
+		enabled true
+	}
+	buildToolsVersion '28.0.3'
+}
+
+dependencies {
+	implementation fileTree(include: ['*.jar'], dir: 'libs')
+	testImplementation 'junit:junit:4.12'
+	androidTestImplementation deps.atsl.runner
+	androidTestImplementation deps.espresso.core
+	
+	implementation deps.support.app_compat
+	implementation deps.support.design
+	implementation deps.support.constraint
+	
+	// RxJava
+	implementation deps.rx_android
+	implementation deps.rxjava2
+	
+	implementation project(':resource')
+}
