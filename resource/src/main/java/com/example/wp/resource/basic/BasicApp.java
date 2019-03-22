@@ -19,15 +19,15 @@ import org.greenrobot.eventbus.Subscribe;
  * Created by wp on 2018/6/25.
  */
 
-public class BaseApp extends Application {
-	private static final String TAG = "BaseApp";
+public class BasicApp extends Application {
+	private static final String TAG = "BasicApp";
 	
 	/** 屏幕宽度 */
 	public static int SCREEN_WIDTH;
 	/** 屏幕高度 */
 	public static int SCREEN_HEIGHT;
 	
-	public static BaseApp INSTANCE;
+	public static BasicApp INSTANCE;
 	private static Boolean isDebug = null;
 	
 	@Override
@@ -117,7 +117,7 @@ public class BaseApp extends Application {
 		if (event.key == EventBusManager.EVENT_KEY_NETWORK_UNAVAILABLE) {
 			LogUtils.d(TAG, "receive event--EVENT_KEY_NETWORK_UNAVAILABLE");
 			toast("請檢查網絡!!");
-			Toast.makeText(BaseApp.INSTANCE, "----------------------", Toast.LENGTH_LONG).show();
+			Toast.makeText(BasicApp.INSTANCE, "----------------------", Toast.LENGTH_LONG).show();
 		}
 	}
 }

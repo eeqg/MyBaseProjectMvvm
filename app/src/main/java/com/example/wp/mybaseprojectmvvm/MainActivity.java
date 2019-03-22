@@ -2,8 +2,8 @@ package com.example.wp.mybaseprojectmvvm;
 
 import android.view.MenuItem;
 
+import com.example.wp.mybaseprojectmvvm.common.MainHelper;
 import com.example.wp.mybaseprojectmvvm.databinding.ActivityMainBinding;
-import com.example.wp.mybaseprojectmvvm.helper.MainHelper;
 import com.example.wp.resource.basic.BasicActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 

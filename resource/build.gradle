@@ -2,7 +2,7 @@ apply plugin: 'com.android.library'
 
 android {
 	compileSdkVersion rootProject.ext.compileSdkVersion
-
+	
 	defaultConfig {
 		minSdkVersion rootProject.ext.minSdkVersion
 		targetSdkVersion rootProject.ext.targetSdkVersion
@@ -33,6 +33,15 @@ dependencies {
 	androidTestImplementation deps.espresso.core
 	
 	implementation deps.support.app_compat
+	implementation deps.lifecycle.runtime
+	implementation deps.lifecycle.extensions
+	implementation deps.lifecycle.compiler
 	implementation deps.logger
 	implementation deps.eventbus
+	api deps.retrofit.runtime
+	implementation deps.retrofit.rx_adapter
+	api deps.retrofit.gson
+	api deps.rxjava2
+	api deps.rx_android
+	api deps.refresh
 }

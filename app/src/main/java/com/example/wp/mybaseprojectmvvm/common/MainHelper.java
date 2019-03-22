@@ -1,4 +1,4 @@
-package com.example.wp.mybaseprojectmvvm.helper;
+package com.example.wp.mybaseprojectmvvm.common;
 
 import com.example.wp.mybaseprojectmvvm.cart.CartFragment;
 import com.example.wp.mybaseprojectmvvm.find.FindFragment;
