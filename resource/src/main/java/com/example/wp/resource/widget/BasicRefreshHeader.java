@@ -10,7 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.wp.resource.R;
-import com.example.wp.resource.basic.network.StatusInfo;
+import com.example.wp.resource.basic.model.StatusInfo;
 
 import cn.shyman.library.refresh.RefreshHeader;
 

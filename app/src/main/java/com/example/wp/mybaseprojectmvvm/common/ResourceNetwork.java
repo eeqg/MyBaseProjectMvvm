@@ -1,6 +1,6 @@
 package com.example.wp.mybaseprojectmvvm.common;
 
-import com.example.wp.resource.basic.network.BasicNetwork;
+import com.example.wp.resource.basic.model.BasicNetwork;
 
 import okhttp3.FormBody;
 import okhttp3.Headers;

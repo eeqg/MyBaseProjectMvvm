@@ -1,6 +1,6 @@
 package com.example.wp.mybaseprojectmvvm.find.repository.bean;
 
-import com.example.wp.resource.basic.network.StatusInfo;
+import com.example.wp.resource.basic.model.StatusInfo;
 
 import java.util.List;
 

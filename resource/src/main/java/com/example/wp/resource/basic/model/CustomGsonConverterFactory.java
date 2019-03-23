@@ -1,4 +1,4 @@
-package com.example.wp.resource.basic.network;
+package com.example.wp.resource.basic.model;
 
 import android.util.Log;
 
@@ -58,10 +58,10 @@ public class CustomGsonConverterFactory extends Converter.Factory {
 	public Converter<ResponseBody, ?> responseBodyConverter(Type type, Annotation[] annotations, Retrofit retrofit) {
 		TypeToken typeToken = TypeToken.get(type);
 		TypeAdapter<?> adapter = gson.getAdapter(TypeToken.get(type));
-		if (typeToken.getRawType() == com.example.wp.resource.basic.network.BasicBean.class) {
+		if (typeToken.getRawType() == com.example.wp.resource.basic.model.BasicBean.class) {
 			return new BaseResponseBodyConverter<>();
 		}
-		if (com.example.wp.resource.basic.network.BasicBean.class.isAssignableFrom(typeToken.getRawType())) {
+		if (com.example.wp.resource.basic.model.BasicBean.class.isAssignableFrom(typeToken.getRawType())) {
 			if (ArrayBean.class.isAssignableFrom(typeToken.getRawType())) {
 				return new ArrayResponseBodyConverter<>(type);
 			} else {
@@ -71,9 +71,9 @@ public class CustomGsonConverterFactory extends Converter.Factory {
 		return new OtherResponseBodyConverter<>(gson, adapter);
 	}
 	
-	private class BaseResponseBodyConverter<T> implements Converter<ResponseBody, com.example.wp.resource.basic.network.BasicBean> {
+	private class BaseResponseBodyConverter<T> implements Converter<ResponseBody, com.example.wp.resource.basic.model.BasicBean> {
 		@Override
-		public com.example.wp.resource.basic.network.BasicBean convert(@NonNull ResponseBody value) throws IOException {
+		public com.example.wp.resource.basic.model.BasicBean convert(@NonNull ResponseBody value) throws IOException {
 			BasicBean basicBean = gson.fromJson(value.charStream(), BasicBean.class);
 			if (BasicApp.isDebug()) {
 				Log.i(TAG, "code = " + basicBean.statusCode
@@ -81,7 +81,7 @@ public class CustomGsonConverterFactory extends Converter.Factory {
 						+ ", data = " + basicBean.resultData);
 			}
 			
-			com.example.wp.resource.basic.network.BasicBean resultBean = new com.example.wp.resource.basic.network.BasicBean();
+			com.example.wp.resource.basic.model.BasicBean resultBean = new com.example.wp.resource.basic.model.BasicBean();
 			resultBean.statusInfo.statusCode = basicBean.statusCode;
 			resultBean.statusInfo.statusMessage = basicBean.statusMessage;
 			resultBean.resultData = basicBean.resultData;
@@ -90,7 +90,7 @@ public class CustomGsonConverterFactory extends Converter.Factory {
 		}
 	}
 	
-	private class ObjectResponseBodyConverter<T extends com.example.wp.resource.basic.network.BasicBean> implements Converter<ResponseBody, T> {
+	private class ObjectResponseBodyConverter<T extends com.example.wp.resource.basic.model.BasicBean> implements Converter<ResponseBody, T> {
 		private Type type;
 		
 		ObjectResponseBodyConverter(Type type) {

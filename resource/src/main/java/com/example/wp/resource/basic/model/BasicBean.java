@@ -1,4 +1,4 @@
-package com.example.wp.resource.basic.network;
+package com.example.wp.resource.basic.model;
 
 /**
  * Created by wp on 2018/6/25.
