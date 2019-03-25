@@ -3,6 +3,7 @@ package com.example.wp.mybaseprojectmvvm.find;
 import com.example.wp.mybaseprojectmvvm.find.repository.FindRepository;
 import com.example.wp.mybaseprojectmvvm.find.repository.bean.MovieListBean;
 import com.example.wp.resource.basic.model.BasicViewModel;
+import com.example.wp.resource.basic.model.DataDisposable;
 import com.example.wp.resource.basic.model.ModelLiveData;
 import com.example.wp.resource.utils.LogUtils;
 
@@ -31,21 +32,24 @@ public class FindViewModel extends BasicViewModel {
 	}
 	
 	public Disposable listMovie(int start, int count) {
-		return this.findRepository.listMovie(start, count)
+		DataDisposable<MovieListBean> disposable = this.findRepository.listMovie(start, count)
 				.subscribeOn(Schedulers.io())
 				.observeOn(AndroidSchedulers.mainThread())
 				.subscribeWith(this.movieListLiveData.dispose());
+		registerDisposable(disposable);
+		return disposable;
 	}
 	
-	public void testRxLifecycle(){
-		Observable.interval(1, TimeUnit.SECONDS)
+	public void testRxLifecycle() {
+		Disposable disposable = Observable.interval(1, TimeUnit.SECONDS)
 				.subscribeOn(Schedulers.io())
 				.observeOn(AndroidSchedulers.mainThread())
 				.subscribe(new Consumer<Long>() {
 					@Override
 					public void accept(Long aLong) throws Exception {
-						LogUtils.d("----"+aLong);
+						LogUtils.d("----" + aLong);
 					}
 				});
+		registerDisposable(disposable);
 	}
 }
