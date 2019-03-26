@@ -17,32 +17,38 @@
 			type="MovieItemBean"/>
 	</data>
 	
-	<android.support.v7.widget.CardView
+	<androidx.cardview.widget.CardView
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:layout_margin="5dp"
-		app:cardElevation="5dp"
+		android:background="@drawable/bg_white"
 		app:cardCornerRadius="5dp"
-		app:contentPadding="8dp"
-		android:background="@drawable/bg_white">
+		app:cardElevation="5dp"
+		app:contentPadding="8dp">
 		
 		<LinearLayout
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content">
 			
-			<com.example.resource.widget.PictureView
+			<!--<com.example.resource.widget.PictureView-->
+			<!--android:layout_width="80dp"-->
+			<!--android:layout_height="80dp"-->
+			<!--app:pictureUrl="@{movieItemBean.obtainPictureUrl()}"-->
+			<!--app:roundedCornerRadius="3dp"-->
+			<!--app:roundingBorderColor="@color/colorThemeDivider"-->
+			<!--app:roundingBorderWidth="1px"/>-->
+			
+			<com.example.wp.resource.widget.RatioImageView
+				android:id="@+id/ivPicture"
 				android:layout_width="80dp"
 				android:layout_height="80dp"
-				app:pictureUrl="@{movieItemBean.obtainPictureUrl()}"
-				app:roundedCornerRadius="3dp"
-				app:roundingBorderColor="@color/colorThemeDivider"
-				app:roundingBorderWidth="1px"/>
+				app:imageUrl="@{movieItemBean.obtainPictureUrl()}"/>
 			
 			<LinearLayout
 				android:layout_width="0dp"
 				android:layout_height="match_parent"
-				android:layout_marginLeft="10dp"
 				android:layout_marginStart="10dp"
+				android:layout_marginLeft="10dp"
 				android:layout_weight="1"
 				android:orientation="vertical">
 				
@@ -82,5 +88,5 @@
 				android:textSize="@dimen/dimenTextSecondary"
 				tools:text="12"/>
 		</LinearLayout>
-	</android.support.v7.widget.CardView>
+	</androidx.cardview.widget.CardView>
 </layout>

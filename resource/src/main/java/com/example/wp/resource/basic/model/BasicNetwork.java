@@ -1,13 +1,16 @@
 package com.example.wp.resource.basic.model;
 
 import com.example.wp.resource.basic.BasicApp;
+import com.example.wp.resource.utils.LogUtils;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
+import io.reactivex.annotations.NonNull;
 import okhttp3.FormBody;
 import okhttp3.Headers;
 import okhttp3.HttpUrl;
+import okhttp3.Interceptor;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -18,6 +21,8 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 public class BasicNetwork {
+	private final String TAG = getClass().getSimpleName();
+	
 	private final String baseUrl;
 	private final Retrofit retrofit;
 	
@@ -58,6 +63,7 @@ public class BasicNetwork {
 				// 		return convertResponse(chain.proceed(request));
 				// 	}
 				// })
+				.addInterceptor(LogInterceptor)
 				.connectTimeout(30, TimeUnit.SECONDS)
 				.writeTimeout(30, TimeUnit.SECONDS)
 				.readTimeout(30, TimeUnit.SECONDS)
@@ -284,4 +290,17 @@ public class BasicNetwork {
 		}
 		return response;
 	}
+	
+	private final Interceptor LogInterceptor = new Interceptor() {
+		@Override
+		public Response intercept(Chain chain) throws IOException {
+			Request request = chain.request();
+			long t1 = System.nanoTime();
+			LogUtils.i(TAG, String.format("Sending request %s on %s%n%s", request.url(), chain.connection(), request.headers()));
+			Response response = chain.proceed(request);
+			long t2 = System.nanoTime();
+			LogUtils.i(TAG, String.format("Received response for %s in %.1fms%n%s", response.request().url(), (t2 - t1) / 1e6d, response.headers()));
+			return response;
+		}
+	};
 }

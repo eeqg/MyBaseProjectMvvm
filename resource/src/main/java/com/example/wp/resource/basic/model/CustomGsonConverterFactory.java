@@ -74,9 +74,9 @@ public class CustomGsonConverterFactory extends Converter.Factory {
 	private class BaseResponseBodyConverter<T> implements Converter<ResponseBody, com.example.wp.resource.basic.model.BasicBean> {
 		@Override
 		public com.example.wp.resource.basic.model.BasicBean convert(@NonNull ResponseBody value) throws IOException {
-			BasicBean basicBean = gson.fromJson(value.charStream(), BasicBean.class);
+			BaseBean basicBean = gson.fromJson(value.charStream(), BaseBean.class);
 			if (BasicApp.isDebug()) {
-				Log.i(TAG, "code = " + basicBean.statusCode
+				LogUtils.i(TAG, "code = " + basicBean.statusCode
 						+ ", message = " + basicBean.statusMessage
 						+ ", data = " + basicBean.resultData);
 			}
@@ -99,9 +99,9 @@ public class CustomGsonConverterFactory extends Converter.Factory {
 		
 		@Override
 		public T convert(@NonNull ResponseBody value) throws IOException {
-			BasicBean basicBean = gson.fromJson(value.charStream(), BasicBean.class);
+			BaseBean basicBean = gson.fromJson(value.charStream(), BaseBean.class);
 			if (BasicApp.isDebug()) {
-				Log.i(TAG, "code = " + basicBean.statusCode
+				LogUtils.i(TAG, "code = " + basicBean.statusCode
 						+ ", message = " + basicBean.statusMessage
 						+ ", data = " + basicBean.resultData);
 			}
@@ -124,9 +124,9 @@ public class CustomGsonConverterFactory extends Converter.Factory {
 		
 		@Override
 		public T convert(@NonNull ResponseBody value) throws IOException {
-			BasicListBean basicBean = gson.fromJson(value.charStream(), BasicListBean.class);
+			BaseListBean basicBean = gson.fromJson(value.charStream(), BaseListBean.class);
 			if (BasicApp.isDebug()) {
-				Log.i(TAG, "code = " + basicBean.statusCode
+				LogUtils.i(TAG, "code = " + basicBean.statusCode
 						+ ", message = " + basicBean.statusMessage
 						+ ", data = " + basicBean.resultData);
 			}
@@ -183,7 +183,7 @@ public class CustomGsonConverterFactory extends Converter.Factory {
 		}
 	}
 	
-	private static class BasicBean {
+	private static class BaseBean {
 		@SerializedName("status")
 		int statusCode;
 		@SerializedName("msg")
@@ -192,7 +192,7 @@ public class CustomGsonConverterFactory extends Converter.Factory {
 		String resultData;
 	}
 	
-	private static class BasicListBean {
+	private static class BaseListBean {
 		@SerializedName("status")
 		int statusCode;
 		@SerializedName("msg")

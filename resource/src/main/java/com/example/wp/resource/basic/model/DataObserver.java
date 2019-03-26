@@ -2,7 +2,7 @@ package com.example.wp.resource.basic.model;
 
 import androidx.annotation.NonNull;
 
-public abstract class DataObserver<T extends BasicBean> {
+public abstract class DataObserver<T> {
 	private DataListener dataListener;
 	
 	protected DataObserver(DataListener dataListener) {
@@ -21,16 +21,22 @@ public abstract class DataObserver<T extends BasicBean> {
 		}
 	}
 	
-	final void dataSuccess(@NonNull T basicBean) {
-		if (basicBean.statusInfo.isSuccessful()) {
-			dataResult(basicBean);
-			dataStatus(basicBean.statusInfo);
-		} else if (basicBean.statusInfo.isOther()) {
-			if (this.dataListener != null) {
-				this.dataListener.dataOther(basicBean.statusInfo);
+	final void dataSuccess(@NonNull T resultBean) {
+		if (resultBean instanceof BasicBean) {
+			BasicBean basicBean = (BasicBean) resultBean;
+			if (basicBean.statusInfo.isSuccessful()) {
+				dataResult(resultBean);
+				dataStatus(basicBean.statusInfo);
+			} else if (basicBean.statusInfo.isOther()) {
+				if (this.dataListener != null) {
+					this.dataListener.dataOther(basicBean.statusInfo);
+				}
+			} else {
+				dataStatus(basicBean.statusInfo);
 			}
-		} else {
-			dataStatus(basicBean.statusInfo);
+		}else {
+			dataResult(resultBean);
+			dataStatus(new StatusInfo(StatusInfo.STATUS_SUCCESS));
 		}
 	}
 	

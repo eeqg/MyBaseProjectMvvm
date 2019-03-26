@@ -5,6 +5,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.wp.resource.basic.model.DataListener;
+import com.example.wp.resource.basic.model.StatusInfo;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
@@ -14,7 +17,8 @@ import androidx.fragment.app.Fragment;
 /**
  * Created by wp on 2019/3/21.
  */
-public abstract class BasicFragment<B extends ViewDataBinding> extends Fragment implements BasicViewImp {
+public abstract class BasicFragment<B extends ViewDataBinding> extends Fragment
+		implements BasicViewImp, DataListener {
 	
 	protected B dataBinding;
 	
@@ -31,5 +35,20 @@ public abstract class BasicFragment<B extends ViewDataBinding> extends Fragment 
 		
 		init();
 		initView();
+	}
+	
+	@Override
+	public void dataStart() {
+	
+	}
+	
+	@Override
+	public void dataStop() {
+	
+	}
+	
+	@Override
+	public void dataOther(StatusInfo statusInfo) {
+	
 	}
 }

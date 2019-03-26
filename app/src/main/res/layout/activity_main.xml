@@ -12,7 +12,7 @@
 		<FrameLayout
 			android:id="@+id/flContent"
 			android:layout_width="match_parent"
-			android:layout_height="match_parent"
+			android:layout_height="0dp"
 			app:layout_constraintBottom_toTopOf="@+id/navigation"
 			app:layout_constraintTop_toTopOf="parent"/>
 		
@@ -26,6 +26,7 @@
 			android:id="@+id/navigation"
 			android:layout_width="match_parent"
 			android:layout_height="?actionBarSize"
+			android:background="@android:color/white"
 			app:itemIconTint="@drawable/selector_accent"
 			app:itemTextColor="@drawable/selector_accent"
 			app:labelVisibilityMode="labeled"

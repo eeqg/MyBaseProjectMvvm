@@ -6,7 +6,7 @@ import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 
-public final class ModelLiveData<T extends BasicBean> extends LiveData<ModelLiveData.LiveDataWrapper<T>>
+public final class ModelLiveData<T> extends LiveData<ModelLiveData.LiveDataWrapper<T>>
 		implements Observer<ModelLiveData.LiveDataWrapper<T>> {
 	private DataObserver<T> dataObserver;
 	

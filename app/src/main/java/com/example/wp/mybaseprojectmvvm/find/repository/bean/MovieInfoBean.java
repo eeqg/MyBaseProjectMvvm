@@ -1,5 +1,6 @@
 package com.example.wp.mybaseprojectmvvm.find.repository.bean;
 
+import com.example.wp.resource.basic.model.BasicBean;
 import com.example.wp.resource.basic.model.StatusInfo;
 
 import java.util.List;
@@ -8,7 +9,7 @@ import java.util.List;
  * Created by wp on 2018/11/15.
  */
 public class MovieInfoBean {
-	public StatusInfo statusInfo = new StatusInfo();
+	public transient StatusInfo statusInfo = new StatusInfo();
 	public String title;
 	public Images images;
 	public String year;

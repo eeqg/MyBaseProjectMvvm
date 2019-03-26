@@ -1,4 +1,4 @@
-package com.example.wp.resource.utils;
+package com.example.wp.resource.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;

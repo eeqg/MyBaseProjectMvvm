@@ -5,7 +5,7 @@ import com.example.wp.resource.basic.BasicApp;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 
-public final class DataDisposable<T extends BasicBean> implements Observer<T>, Disposable {
+public final class DataDisposable<T> implements Observer<T>, Disposable {
 	private ModelLiveData<T> modelLiveData;
 	private Disposable disposable;
 	
