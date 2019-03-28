@@ -27,22 +27,31 @@ android {
 
 dependencies {
 	implementation fileTree(dir: 'libs', include: ['*.jar'])
-	
+	//test
 	testImplementation 'junit:junit:4.12'
 	androidTestImplementation deps.atsl.runner
 	androidTestImplementation deps.espresso.core
-	
+	//support
 	implementation deps.support.app_compat
 	implementation deps.support.recyclerview
+	//lifecycle
 	implementation deps.lifecycle.runtime
 	implementation deps.lifecycle.extensions
-	implementation deps.lifecycle.compiler
-	implementation deps.logger
-	implementation deps.eventbus
+	annotationProcessor deps.lifecycle.compiler
+	//retrofit
 	api deps.retrofit.runtime
 	implementation deps.retrofit.rx_adapter
 	api deps.retrofit.gson
+	//rx
 	api deps.rxjava2
 	api deps.rx_android
+	//glide
+	implementation deps.glide.runtime
+	annotationProcessor deps.glide.compiler
+	implementation deps.glide.transformations
+	
+	//others
+	implementation deps.logger
+	implementation deps.eventbus
 	api deps.refresh
 }

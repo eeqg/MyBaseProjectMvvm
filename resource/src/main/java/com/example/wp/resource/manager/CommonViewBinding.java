@@ -1,11 +1,10 @@
 package com.example.wp.resource.manager;
 
-import android.graphics.drawable.Drawable;
-
-import com.example.wp.resource.R;
-import com.example.wp.resource.utils.LogUtils;
+import com.example.wp.resource.common.CustomGlideTransform;
+import com.example.wp.resource.common.imageloader.GlideImageLoader;
 import com.example.wp.resource.widget.RatioImageView;
 
+import androidx.annotation.DrawableRes;
 import androidx.databinding.BindingAdapter;
 
 /**
@@ -13,12 +12,10 @@ import androidx.databinding.BindingAdapter;
  */
 public class CommonViewBinding {
 	
-	@BindingAdapter(value = {"imageUrl", "placeholder"}, requireAll = false)
-	public static void setImageUrl(RatioImageView imageView, String url, Drawable placeHolder) {
-		// GlideApp.with(imageView.getContext())
-		// 		.load(url)
-		// 		.into(imageView);
-		LogUtils.d("-----" + url);
-		imageView.setImageResource(R.mipmap.ic_loading);
+	@BindingAdapter(value = {"imageUrl", "placeholder", "circle", "radius", "stroke", "strokeColor"}, requireAll = false)
+	public static void loadImage(RatioImageView imageView, String url, @DrawableRes int defaultImage,
+	                             boolean circle, int radius, int stroke, int strokeColor) {
+		GlideImageLoader.getInstance().load(imageView, url, new CustomGlideTransform(circle, radius, stroke, strokeColor));
+		// GlideImageLoader.getInstance().load(imageView, url, defaultImage);
 	}
 }

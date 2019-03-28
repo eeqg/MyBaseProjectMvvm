@@ -3,7 +3,10 @@ package com.example.wp.resource.widget;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 
@@ -34,6 +37,9 @@ public class RatioImageView extends AppCompatImageView {
 	private int rightTopRadius;
 	private int rightBottomRadius;
 	private int leftBottomRadius;
+	private int boundWidth = 2;
+	Paint boundPaint;
+	RectF boundRect = new RectF();
 	
 	public RatioImageView(Context context) {
 		this(context, null);
@@ -90,6 +96,13 @@ public class RatioImageView extends AppCompatImageView {
 		}
 		
 		a.recycle();
+		
+		// boundPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+		// boundPaint.setColor(Color.RED);
+		// boundPaint.setStyle(Paint.Style.STROKE);
+		// boundPaint.setStrokeWidth(boundWidth);
+		//
+		// setPadding(boundWidth, boundWidth, boundWidth, boundWidth);
 	}
 	
 	@Override
@@ -156,6 +169,7 @@ public class RatioImageView extends AppCompatImageView {
 		super.onLayout(changed, left, top, right, bottom);
 		width = getWidth();
 		height = getHeight();
+		boundRect.set(0, 0, width, height);
 	}
 	
 	@Override
@@ -184,6 +198,12 @@ public class RatioImageView extends AppCompatImageView {
 			path.quadTo(0, 0, leftTopRadius, 0);
 			
 			canvas.clipPath(path);
+			
+			// if (boundWidth > 0) {
+			// 	int saveLayer = canvas.saveLayer(boundRect, boundPaint, Canvas.ALL_SAVE_FLAG);
+			// 	canvas.drawPath(path, boundPaint);
+			// 	canvas.restoreToCount(saveLayer);
+			// }
 		}
 		super.onDraw(canvas);
 	}
