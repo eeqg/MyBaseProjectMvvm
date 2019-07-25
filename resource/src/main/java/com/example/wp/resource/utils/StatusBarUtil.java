@@ -11,7 +11,6 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 
-
 import com.example.wp.resource.R;
 
 import java.lang.reflect.Field;
@@ -523,7 +522,13 @@ public class StatusBarUtil {
 		setMIUIStatusBarDarkIcon(activity, true);
 		setMeizuStatusBarDarkIcon(activity, true);
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-			activity.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+			// activity.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+			View decorView = activity.getWindow().getDecorView();
+			if (decorView != null) {
+				int vis = decorView.getSystemUiVisibility();
+				vis &= ~View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+				decorView.setSystemUiVisibility(vis);
+			}
 		}
 	}
 	
@@ -532,7 +537,13 @@ public class StatusBarUtil {
 		setMIUIStatusBarDarkIcon(activity, false);
 		setMeizuStatusBarDarkIcon(activity, false);
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-			activity.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+			// activity.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+			View decorView = activity.getWindow().getDecorView();
+			if (decorView != null) {
+				int vis = decorView.getSystemUiVisibility();
+				vis |= View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+				decorView.setSystemUiVisibility(vis);
+			}
 		}
 	}
 	
@@ -688,7 +699,7 @@ public class StatusBarUtil {
 	 * @param alpha 透明值
 	 * @return 半透明 View
 	 */
-	private static View createTranslucentStatusBarView(Activity activity, int alpha) {
+	public static View createTranslucentStatusBarView(Activity activity, int alpha) {
 		// 绘制一个和状态栏一样高的矩形
 		View statusBarView = new View(activity);
 		LinearLayout.LayoutParams params =
@@ -730,5 +741,28 @@ public class StatusBarUtil {
 		green = (int) (green * a + 0.5);
 		blue = (int) (blue * a + 0.5);
 		return 0xff << 24 | red << 16 | green << 8 | blue;
+	}
+	
+	/**
+	 * Flag只有在使用了FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS
+	 * 并且没有使用 FLAG_TRANSLUCENT_STATUS的时候才有效，也就是只有在状态栏全透明的时候才有效。
+	 *
+	 * @param activity
+	 * @param bDark
+	 */
+	public static void setStatusBarMode(Activity activity, boolean bDark) {
+		//6.0以上
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+			View decorView = activity.getWindow().getDecorView();
+			if (decorView != null) {
+				int vis = decorView.getSystemUiVisibility();
+				if (bDark) {
+					vis |= View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+				} else {
+					vis &= ~View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+				}
+				decorView.setSystemUiVisibility(vis);
+			}
+		}
 	}
 }

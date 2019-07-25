@@ -1,10 +1,12 @@
 package com.example.wp.resource.basic.model;
 
-public class StatusInfo {
+import java.io.Serializable;
+
+public class StatusInfo implements Serializable {
 	/** 成功 */
 	public static final int STATUS_SUCCESS = 200;
 	/** Token超时 */
-	public static final int STATUS_TOKEN_TIMEOUT = 1004;
+	public static final int STATUS_TOKEN_TIMEOUT = 402;
 	/** Token未设置 */
 	public static final int STATUS_TOKEN_NOT_FOUND = 1006;
 	/** 自定义错误 */

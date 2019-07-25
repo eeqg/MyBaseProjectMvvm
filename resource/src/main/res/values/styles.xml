@@ -22,13 +22,13 @@
 		<item name="toolbarActionTextSize">@dimen/dimenTextPrimary</item>
 		<item name="colorThemeAccent">@color/colorThemeAccent</item>
 		<item name="colorThemePrimary">@color/colorThemePrimary</item>
-		<item name="colorThemeAssisted">@color/colorThemeAssisted</item>
+		<item name="colorThemeAssist">@color/colorThemeAssist</item>
 		<item name="colorThemeDivider">@color/colorThemeDivider</item>
 		<item name="colorTextAccent">@color/colorTextAccent</item>
 		<item name="colorTextPrimary">@color/colorTextPrimary</item>
 		<item name="colorTextSecondary">@color/colorTextSecondary</item>
-		<item name="colorTextAssisted">@color/colorTextAssisted</item>
-		<item name="actionBarSize">46dp</item>
+		<item name="colorTextAssist">@color/colorTextAssist</item>
+		<item name="actionBarSize">44dp</item>
 	</style>
 	
 	<style name="ViewDividerVertical">
@@ -70,5 +70,41 @@
 	<style name="AnimationBottom" parent="@android:style/Animation.Dialog">
 		<item name="android:windowEnterAnimation">@anim/enter_from_bottom</item>
 		<item name="android:windowExitAnimation">@anim/exit_from_bottom</item>
+	</style>
+	
+	<style name="ShareDialogTheme" parent="Theme.AppCompat.DayNight.Dialog">
+		<item name="windowActionBar">false</item>
+		<item name="windowNoTitle">true</item>
+		<item name="android:windowIsTranslucent">false</item>
+		<item name="android:backgroundDimEnabled">false</item> <!--是否允许背景变暗-->
+		<item name="android:windowBackground">@android:color/transparent</item>
+		<item name="android:windowAnimationStyle">@style/AnimationBottom</item>
+	</style>
+	
+	<style name="AnimationFade" parent="@android:style/Animation.Dialog">
+		<item name="android:windowEnterAnimation">@anim/fade_in</item>
+		<item name="android:windowExitAnimation">@anim/fade_out</item>
+	</style>
+	
+	<style name="TransparentTheme" parent="Theme.AppCompat.NoActionBar">
+		<!--不设置activity进入和退出动画样式-->
+		<!--<item name="android:windowAnimationStyle">@null</item>-->
+		<!--设置窗口的背景为透明，设置透明背景必须要设置此项-->
+		<item name="android:windowBackground">@android:color/transparent</item>
+		<!--设置窗口的背景是否为半透明，设置透明背景必须要设置此项-->
+		<item name="android:windowIsTranslucent">true</item>
+		<!--设置状态栏的背景为半透明-->
+		<!--<item name="android:windowTranslucentStatus">true</item>-->
+	</style>
+	
+	<style name="PPViewAnimation">
+		<item name="android:activityOpenEnterAnimation">@anim/fade_in</item>
+		<item name="android:activityCloseExitAnimation">@anim/fade_out</item>
+	</style>
+	
+	<style name="PictureViewTheme" parent="TransparentTheme">
+		<item name="android:windowAnimationStyle">@style/PPViewAnimation</item>
+		<!--<item name="android:windowEnterAnimation">@anim/fade_in</item>-->
+		<!--<item name="android:windowExitAnimation">@anim/fade_out</item>-->
 	</style>
 </resources>

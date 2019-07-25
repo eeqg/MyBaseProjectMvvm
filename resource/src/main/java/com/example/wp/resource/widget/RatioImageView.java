@@ -3,7 +3,6 @@ package com.example.wp.resource.widget;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.RectF;
@@ -103,6 +102,14 @@ public class RatioImageView extends AppCompatImageView {
 		// boundPaint.setStrokeWidth(boundWidth);
 		//
 		// setPadding(boundWidth, boundWidth, boundWidth, boundWidth);
+	}
+	
+	public void setHeightRatio(float ratio) {
+		this.mHeightRatio = ratio;
+	}
+	
+	public void setWidthRatio(float ratio) {
+		this.mWidthRatio = ratio;
 	}
 	
 	@Override

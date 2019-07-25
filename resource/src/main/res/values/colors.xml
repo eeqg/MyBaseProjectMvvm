@@ -9,6 +9,8 @@
 	<color name="colorThemeDisable">#CCCCCC</color>
 	<color name="colorThemePrice">#F02F2F</color>
 	
+	<color name="colorWhite">#FFFFFF</color>
+	
 	<!-- 重点 -->
 	<color name="colorTextAccent">#D71F2D</color>
 	<!-- 主级 -->
@@ -16,18 +18,23 @@
 	<!-- 次级 -->
 	<color name="colorTextSecondary">#999999</color>
 	<!-- 辅助 -->
-	<color name="colorTextAssisted">#808080</color>
+	<color name="colorTextAssist">#808080</color>
 	<!-- 提示 -->
 	<color name="colorTextHint">#8F8E94</color>
 	<!-- 忽略 -->
 	<color name="colorTextInessential">#BEBEBE</color>
 	
 	<!-- 辅助 -->
-	<color name="colorThemeAssisted">#CCCCCC</color>
+	<color name="colorThemeAssist">#CCCCCC</color>
 	
 	<!-- 分割线 -->
 	<color name="colorThemeDivider">#E5E5E5</color>
 	
 	<color name="base_transparent">#00000000</color>
 	<color name="base_transparent_half">#55000000</color>
+	
+	<color name="default_background_color">@android:color/transparent</color>
+	<color name="default_progress_color">#33b5e5</color>
+	<color name="default_stroke_color">#33b5e5</color>
+	<color name="default_text_color">#333333</color>
 </resources>

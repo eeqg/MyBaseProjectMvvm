@@ -60,7 +60,7 @@
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
 					android:text="@{movieItemBean.formatId()}"
-					android:textColor="@color/colorTextAssisted"
+					android:textColor="@color/colorTextAssist"
 					android:textSize="@dimen/dimenTextAssisted"
 					tools:text="12346"/>
 				
@@ -77,7 +77,7 @@
 					android:layout_height="wrap_content"
 					android:layout_marginTop="8dp"
 					android:text="@{movieItemBean.formatYear()}"
-					android:textColor="@color/colorTextAssisted"
+					android:textColor="@color/colorTextAssist"
 					android:textSize="@dimen/dimenTextAssisted"
 					tools:text="1997"/>
 			</LinearLayout>
@@ -88,7 +88,7 @@
 				android:background="#30aa8900"
 				android:gravity="center"
 				android:text="@{index}"
-				android:textColor="@color/colorTextAssisted"
+				android:textColor="@color/colorTextAssist"
 				android:textSize="@dimen/dimenTextSecondary"
 				tools:text="12"/>
 		</LinearLayout>

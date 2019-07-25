@@ -8,6 +8,7 @@ import androidx.lifecycle.Observer;
 
 public final class ModelLiveData<T> extends LiveData<ModelLiveData.LiveDataWrapper<T>>
 		implements Observer<ModelLiveData.LiveDataWrapper<T>> {
+	private static final String TAG = ModelLiveData.class.getSimpleName();
 	private DataObserver<T> dataObserver;
 	
 	public void observe(@NonNull LifecycleOwner lifecycleOwner,
@@ -85,6 +86,7 @@ public final class ModelLiveData<T> extends LiveData<ModelLiveData.LiveDataWrapp
 		}
 		
 		LiveDataWrapper<T> dataSuccess(T basicBean) {
+			// Log.d(TAG, "-----dataSuccess()-----");
 			this.taskStatus = DATA_SUCCESS;
 			this.basicBean = basicBean;
 			return this;

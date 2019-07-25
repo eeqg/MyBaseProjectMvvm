@@ -21,10 +21,8 @@ import cn.shyman.library.refresh.RecyclerAdapter;
 
 public class FindMovieListAdapter extends BasicRecyclerAdapter<MovieListBean> {
 	
-	private final LayoutInflater inflater;
-	
 	public FindMovieListAdapter(Context context) {
-		this.inflater = LayoutInflater.from(context);
+		super(context);
 	}
 	
 	@Override

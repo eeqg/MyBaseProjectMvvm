@@ -1,16 +1,24 @@
 package com.example.wp.resource.basic.model;
 
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.example.wp.resource.basic.BasicApp;
 import com.example.wp.resource.utils.LogUtils;
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonIOException;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.JsonSyntaxException;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 
 import java.io.ByteArrayInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -18,7 +26,6 @@ import java.io.Reader;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 import java.nio.charset.Charset;
-import java.util.List;
 
 import androidx.annotation.NonNull;
 import okhttp3.MediaType;
@@ -58,10 +65,10 @@ public class CustomGsonConverterFactory extends Converter.Factory {
 	public Converter<ResponseBody, ?> responseBodyConverter(Type type, Annotation[] annotations, Retrofit retrofit) {
 		TypeToken typeToken = TypeToken.get(type);
 		TypeAdapter<?> adapter = gson.getAdapter(TypeToken.get(type));
-		if (typeToken.getRawType() == com.example.wp.resource.basic.model.BasicBean.class) {
+		if (typeToken.getRawType() == BasicBean.class) {
 			return new BaseResponseBodyConverter<>();
 		}
-		if (com.example.wp.resource.basic.model.BasicBean.class.isAssignableFrom(typeToken.getRawType())) {
+		if (BasicBean.class.isAssignableFrom(typeToken.getRawType())) {
 			if (ArrayBean.class.isAssignableFrom(typeToken.getRawType())) {
 				return new ArrayResponseBodyConverter<>(type);
 			} else {
@@ -71,17 +78,18 @@ public class CustomGsonConverterFactory extends Converter.Factory {
 		return new OtherResponseBodyConverter<>(gson, adapter);
 	}
 	
-	private class BaseResponseBodyConverter<T> implements Converter<ResponseBody, com.example.wp.resource.basic.model.BasicBean> {
+	private class BaseResponseBodyConverter<T> implements Converter<ResponseBody, BasicBean> {
 		@Override
-		public com.example.wp.resource.basic.model.BasicBean convert(@NonNull ResponseBody value) throws IOException {
-			BaseBean basicBean = gson.fromJson(value.charStream(), BaseBean.class);
-			if (BasicApp.isDebug()) {
-				LogUtils.i(TAG, "code = " + basicBean.statusCode
-						+ ", message = " + basicBean.statusMessage
-						+ ", data = " + basicBean.resultData);
-			}
+		public BasicBean convert(@NonNull ResponseBody value) throws IOException {
+			BaseValueBean basicBean = gson.fromJson(value.charStream(), BaseValueBean.class);
+			// if (BasicApp.isDebug()) {
+			// 	LogUtils.json(value.string());
+			// 	LogUtils.i(TAG, "code = " + basicBean.statusCode
+			// 			+ ", message = " + basicBean.statusMessage
+			// 			+ ", data = " + basicBean.resultData);
+			// }
 			
-			com.example.wp.resource.basic.model.BasicBean resultBean = new com.example.wp.resource.basic.model.BasicBean();
+			BasicBean resultBean = new BasicBean();
 			resultBean.statusInfo.statusCode = basicBean.statusCode;
 			resultBean.statusInfo.statusMessage = basicBean.statusMessage;
 			resultBean.resultData = basicBean.resultData;
@@ -90,7 +98,7 @@ public class CustomGsonConverterFactory extends Converter.Factory {
 		}
 	}
 	
-	private class ObjectResponseBodyConverter<T extends com.example.wp.resource.basic.model.BasicBean> implements Converter<ResponseBody, T> {
+	private class ObjectResponseBodyConverter<T extends BasicBean> implements Converter<ResponseBody, T> {
 		private Type type;
 		
 		ObjectResponseBodyConverter(Type type) {
@@ -99,17 +107,40 @@ public class CustomGsonConverterFactory extends Converter.Factory {
 		
 		@Override
 		public T convert(@NonNull ResponseBody value) throws IOException {
-			BaseBean basicBean = gson.fromJson(value.charStream(), BaseBean.class);
-			if (BasicApp.isDebug()) {
-				LogUtils.i(TAG, "code = " + basicBean.statusCode
-						+ ", message = " + basicBean.statusMessage
-						+ ", data = " + basicBean.resultData);
+			// BaseBean basicBean = gson.fromJson(value.charStream(), BaseBean.class);
+			// if (BasicApp.isDebug()) {
+			// 	LogUtils.i(TAG, "code = " + basicBean.statusCode
+			// 			+ ", message = " + basicBean.statusMessage
+			// 			+ ", data = " + basicBean.resultData.toString());
+			// }
+			T resultBean = null;
+			JsonParser parse = new JsonParser();
+			try {
+				JsonObject json = (JsonObject) parse.parse(value.string());
+				JsonElement jsonElement = json.get("data");
+				// LogUtils.d("-----jsonElement = " + jsonElement);
+				String jsonStr;
+				if (jsonElement != null && jsonElement.isJsonObject()) {
+					jsonStr = jsonElement.getAsJsonObject().toString();
+				} else {
+					jsonStr = "{}";
+				}
+				// LogUtils.d("-----jsonStr = " + jsonStr);
+				resultBean = gson.fromJson(jsonStr, this.type);
+				resultBean.statusInfo.statusCode = json.get("respCode").getAsInt();
+				resultBean.statusInfo.statusMessage = json.get("respMsg").getAsString();
+				resultBean.resultData = jsonElement != null ? jsonElement.toString() : "";
+				
+				LogUtils.i(TAG, "statusCode = " + resultBean.statusInfo.statusCode
+						+ ", statusMessage = " + resultBean.statusInfo.statusMessage
+						+ ", resultData = " + resultBean.resultData);
+			} catch (JsonIOException e) {
+				e.printStackTrace();
+			} catch (JsonSyntaxException e) {
+				e.printStackTrace();
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
 			}
-			
-			T resultBean = gson.fromJson(
-					basicBean.resultData == null ? "{}" : basicBean.resultData, this.type);
-			resultBean.statusInfo.statusCode = basicBean.statusCode;
-			resultBean.statusInfo.statusMessage = basicBean.statusMessage;
 			
 			return resultBean;
 		}
@@ -124,18 +155,46 @@ public class CustomGsonConverterFactory extends Converter.Factory {
 		
 		@Override
 		public T convert(@NonNull ResponseBody value) throws IOException {
-			BaseListBean basicBean = gson.fromJson(value.charStream(), BaseListBean.class);
-			if (BasicApp.isDebug()) {
-				LogUtils.i(TAG, "code = " + basicBean.statusCode
-						+ ", message = " + basicBean.statusMessage
-						+ ", data = " + basicBean.resultData);
-			}
+			// BaseListBean basicBean = gson.fromJson(value.charStream(), BaseListBean.class);
+			// if (BasicApp.isDebug()) {
+			// 	// LogUtils.json(value.string());
+			// 	LogUtils.i(TAG, "code = " + basicBean.statusCode
+			// 			+ ", message = " + basicBean.statusMessage
+			// 			+ ", data = " + basicBean.resultData);
+			// }
+			// T resultBean = gson.fromJson(
+			// 		String.format("{\"result\":%s}", basicBean.resultData == null ? "[]" : gson.toJson(basicBean.resultData)),
+			// 		this.type);
+			// resultBean.totalCount = basicBean.totalCount;
+			// resultBean.statusInfo.statusCode = basicBean.statusCode;
+			// resultBean.statusInfo.statusMessage = basicBean.statusMessage;
 			
-			T resultBean = gson.fromJson(
-					String.format("{\"result\":%s}", basicBean.resultData == null ? "[]" : gson.toJson(basicBean.resultData)),
-					this.type);
-			resultBean.statusInfo.statusCode = basicBean.statusCode;
-			resultBean.statusInfo.statusMessage = basicBean.statusMessage;
+			T resultBean = null;
+			JsonParser parse = new JsonParser();
+			try {
+				JsonObject json = (JsonObject) parse.parse(value.string());
+				JsonElement jsonElement = json.get("data");
+				String jsonStr = "[]";
+				if (jsonElement != null && jsonElement.isJsonArray()) {
+					jsonStr = jsonElement.getAsJsonArray().toString();
+				}
+				resultBean = gson.fromJson(String.format("{\"result\":%s}", jsonStr), this.type);
+				resultBean.statusInfo.statusCode = json.get("respCode").getAsInt();
+				resultBean.statusInfo.statusMessage = json.get("respMsg").getAsString();
+				JsonElement count = json.get("count");
+				resultBean.totalCount = count != null && !TextUtils.equals("null", count.toString()) ? count.getAsInt() : 0;
+				resultBean.resultData = jsonElement != null ? jsonElement.toString() : "";
+				
+				LogUtils.i(TAG, "statusCode = " + resultBean.statusInfo.statusCode
+						+ ", statusMessage = " + resultBean.statusInfo.statusMessage
+						+ ", resultData = " + resultBean.resultData);
+			} catch (JsonIOException e) {
+				e.printStackTrace();
+			} catch (JsonSyntaxException e) {
+				e.printStackTrace();
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			}
 			
 			return resultBean;
 		}
@@ -184,20 +243,31 @@ public class CustomGsonConverterFactory extends Converter.Factory {
 	}
 	
 	private static class BaseBean {
-		@SerializedName("status")
+		@SerializedName("respCode")
 		int statusCode;
-		@SerializedName("msg")
+		@SerializedName("respMsg")
 		String statusMessage;
 		@SerializedName("data")
-		String resultData;
+		JsonObject resultData;
 	}
 	
 	private static class BaseListBean {
-		@SerializedName("status")
+		@SerializedName("respCode")
 		int statusCode;
-		@SerializedName("msg")
+		@SerializedName("respMsg")
 		String statusMessage;
 		@SerializedName("data")
-		List resultData;
+		JsonArray resultData;
+		@SerializedName("count")
+		int totalCount;
+	}
+	
+	private static class BaseValueBean {
+		@SerializedName("respCode")
+		int statusCode;
+		@SerializedName("respMsg")
+		String statusMessage;
+		@SerializedName("data")
+		String resultData;
 	}
 }

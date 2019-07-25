@@ -3,6 +3,7 @@ package com.example.wp.resource.basic.model;
 import androidx.annotation.NonNull;
 
 public abstract class DataObserver<T> {
+	private final String TAG = DataObserver.class.getSimpleName();
 	private DataListener dataListener;
 	
 	protected DataObserver(DataListener dataListener) {
@@ -22,8 +23,10 @@ public abstract class DataObserver<T> {
 	}
 	
 	final void dataSuccess(@NonNull T resultBean) {
+		// Log.d(TAG, "-----dataSuccess()-----");
 		if (resultBean instanceof BasicBean) {
 			BasicBean basicBean = (BasicBean) resultBean;
+			// Log.d(TAG, "-----dataSuccess()-----statusCode = " + basicBean.statusInfo.statusCode);
 			if (basicBean.statusInfo.isSuccessful()) {
 				dataResult(resultBean);
 				dataStatus(basicBean.statusInfo);
@@ -34,7 +37,7 @@ public abstract class DataObserver<T> {
 			} else {
 				dataStatus(basicBean.statusInfo);
 			}
-		}else {
+		} else {
 			dataResult(resultBean);
 			dataStatus(new StatusInfo(StatusInfo.STATUS_SUCCESS));
 		}

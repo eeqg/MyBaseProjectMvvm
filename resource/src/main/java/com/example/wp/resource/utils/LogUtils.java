@@ -17,7 +17,7 @@ import com.orhanobut.logger.PrettyFormatStrategy;
 public class LogUtils {
 	private static boolean mIsShowToast = true;
 	private static boolean mIsFormat = true;
-	private final static String TAG = "BaseProject";
+	private final static String TAG = "jln";
 	
 	static {
 		FormatStrategy formatStrategy = PrettyFormatStrategy.newBuilder()
@@ -46,7 +46,14 @@ public class LogUtils {
 		} else {
 			Log.d(TAG, msg + "");
 		}
-		
+	}
+	
+	public static void i(Object msg) {
+		if (mIsFormat) {
+			Logger.i("", msg);
+		} else {
+			Log.i(TAG, msg + "");
+		}
 	}
 	
 	public static void i(String tag, String msg) {
@@ -62,6 +69,14 @@ public class LogUtils {
 			Logger.t(tag).w(msg);
 		} else {
 			Log.w(tag, msg);
+		}
+	}
+	
+	public static void e(Object msg) {
+		if (mIsFormat) {
+			Logger.e("", msg);
+		} else {
+			Log.e(TAG, msg + "");
 		}
 	}
 	

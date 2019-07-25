@@ -57,7 +57,8 @@ public class FindFragment extends BasicFragment<FragmentFindBinding> {
 		this.findMovieListAdapter.swipeRefresh();
 	}
 	
-	private void subscribe() {
+	@Override
+	public void subscribe() {
 		this.findViewModel.getMovieListLiveData().observe(this,
 				new DataObserver<MovieListBean>(this) {
 					@Override

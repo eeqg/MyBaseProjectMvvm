@@ -10,8 +10,8 @@ import android.view.Gravity;
 import android.view.WindowManager;
 import android.widget.Toast;
 
+import com.example.wp.resource.BuildConfig;
 import com.example.wp.resource.manager.EventBusManager;
-import com.example.wp.resource.utils.LogUtils;
 
 import org.greenrobot.eventbus.Subscribe;
 
@@ -19,7 +19,7 @@ import org.greenrobot.eventbus.Subscribe;
  * Created by wp on 2018/6/25.
  */
 
-public class BasicApp extends Application {
+public abstract class BasicApp extends Application {
 	private static final String TAG = "BasicApp";
 	
 	/** 屏幕宽度 */
@@ -62,7 +62,8 @@ public class BasicApp extends Application {
 	}
 	
 	public static boolean isDebug() {
-		return isDebug == null ? false : isDebug;
+		// return isDebug == null ? false : isDebug;
+		return BuildConfig.DEBUG;
 	}
 	
 	/**
@@ -71,7 +72,6 @@ public class BasicApp extends Application {
 	 * @param text 提示内容
 	 */
 	public static void toast(String text) {
-		LogUtils.d(TAG, "toast---text="+text);
 		toast(text, Gravity.CENTER);
 	}
 	
@@ -111,13 +111,32 @@ public class BasicApp extends Application {
 		toast.show();
 	}
 	
+	/**
+	 * 退出登录
+	 *
+	 * @param context 设备上下文环境
+	 */
+	public abstract void logout(Context context);
+	
+	/**
+	 * 请求登录
+	 *
+	 * @param context     设备上下文环境
+	 * @param requestCode 请求码
+	 */
+	public abstract void requestLogin(Context context, int requestCode);
+	
+	public abstract void onBasicActivityResumed(Context context);
+	
+	public abstract void onBasicActivityPaused(Context context);
+	
 	@Subscribe
 	public void handleEvent(EventBusManager.Event event) {
-		LogUtils.d(TAG, "------------"+event.key);
-		if (event.key == EventBusManager.EVENT_KEY_NETWORK_UNAVAILABLE) {
-			LogUtils.d(TAG, "receive event--EVENT_KEY_NETWORK_UNAVAILABLE");
-			toast("請檢查網絡!!");
-			Toast.makeText(BasicApp.INSTANCE, "----------------------", Toast.LENGTH_LONG).show();
-		}
+		// LogUtils.d(TAG, "------------" + event.key);
+		// if (event.key == EventBusManager.EVENT_KEY_NETWORK_UNAVAILABLE) {
+		// 	LogUtils.d(TAG, "receive event--EVENT_KEY_NETWORK_UNAVAILABLE");
+		// 	toast("請檢查網絡!!");
+		// 	Toast.makeText(BasicApp.INSTANCE, "----------------------", Toast.LENGTH_LONG).show();
+		// }
 	}
 }

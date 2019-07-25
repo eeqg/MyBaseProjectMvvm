@@ -54,4 +54,10 @@ dependencies {
 	implementation deps.logger
 	implementation deps.eventbus
 	api deps.refresh
+	
+	//picker
+	api 'com.zhihu.android:matisse:0.4.3'
+	
+	//web
+	api 'com.just.agentweb:agentweb:4.0.3-beta'
 }

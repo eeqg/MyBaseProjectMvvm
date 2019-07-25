@@ -1,11 +1,14 @@
 package com.example.wp.resource.basic.model;
 
+import android.util.Log;
+
 import com.example.wp.resource.basic.BasicApp;
 
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 
 public final class DataDisposable<T> implements Observer<T>, Disposable {
+	private final String TAG = DataDisposable.class.getSimpleName();
 	private ModelLiveData<T> modelLiveData;
 	private Disposable disposable;
 	
@@ -28,6 +31,7 @@ public final class DataDisposable<T> implements Observer<T>, Disposable {
 	
 	@Override
 	public void onNext(T basicBean) {
+		// Log.d(TAG, "-----onNext()-----");
 		ModelLiveData.LiveDataWrapper liveDataWrapper;
 		
 		liveDataWrapper = new ModelLiveData.LiveDataWrapper<T>().dataStop();
@@ -42,6 +46,7 @@ public final class DataDisposable<T> implements Observer<T>, Disposable {
 	
 	@Override
 	public void onError(Throwable throwable) {
+		Log.d(TAG, "-----onError()-----");
 		if (BasicApp.isDebug()) {
 			throwable.printStackTrace();
 		}

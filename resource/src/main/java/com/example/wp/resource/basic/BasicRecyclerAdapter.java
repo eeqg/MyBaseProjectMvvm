@@ -1,5 +1,6 @@
 package com.example.wp.resource.basic;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +11,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.wp.resource.R;
-import com.example.wp.resource.basic.model.BasicBean;
 import com.example.wp.resource.basic.model.StatusInfo;
 
 import androidx.annotation.NonNull;
@@ -24,6 +24,19 @@ public abstract class BasicRecyclerAdapter<AdapterInfo> extends RecyclerAdapter 
 	
 	private AdapterInfo completeAdapterInfo;
 	protected AdapterInfo adapterInfo;
+	protected Context context;
+	protected LayoutInflater inflater;
+	
+	protected boolean hasMore;
+	
+	public BasicRecyclerAdapter(Context context) {
+		this.context = context;
+		this.inflater = LayoutInflater.from(context);
+	}
+	
+	public AdapterInfo getAdapterInfo() {
+		return adapterInfo;
+	}
 	
 	/**
 	 * 重置数据信息并刷新
@@ -74,10 +87,6 @@ public abstract class BasicRecyclerAdapter<AdapterInfo> extends RecyclerAdapter 
 	
 	public void swipeResult(AdapterInfo adapterInfo) {
 		this.completeAdapterInfo = adapterInfo;
-		if (adapterInfo instanceof BasicBean) {
-			StatusInfo statusInfo = ((BasicBean) adapterInfo).statusInfo;
-			swipeStatus(statusInfo);
-		}
 	}
 	
 	public void swipeStatus(StatusInfo statusInfo) {
@@ -85,10 +94,14 @@ public abstract class BasicRecyclerAdapter<AdapterInfo> extends RecyclerAdapter 
 		if (statusInfo != null && statusInfo.isSuccessful()) {
 			if (isRefreshing) {
 				resetAdapterInfo(this.completeAdapterInfo);
+				hasMore = getItemCount() >= getDefaultPageSize();
+				// LogUtils.d("-----1   = " + getItemCount());
 			} else if (this.completeAdapterInfo != null) {
 				int oldItemCount = getItemCount();
 				updateAdapterInfo(this.completeAdapterInfo);
 				int newItemCount = getItemCount();
+				hasMore = newItemCount - oldItemCount >= getDefaultPageSize();
+				// LogUtils.d("-----2   = " + getItemCount());
 				notifyItemRangeInserted(oldItemCount, newItemCount - oldItemCount);
 			}
 			super.swipeComplete(statusInfo);
@@ -108,6 +121,7 @@ public abstract class BasicRecyclerAdapter<AdapterInfo> extends RecyclerAdapter 
 	protected void notifyRefreshComplete(Object statusInfo) {
 		if (statusInfo instanceof StatusInfo) {
 			if (((StatusInfo) statusInfo).isSuccessful()) {
+				// LogUtils.d("-----notifyRefreshComplete()--currentPage = "+currentPage);
 				this.currentPage++;
 			}
 		}
@@ -118,6 +132,7 @@ public abstract class BasicRecyclerAdapter<AdapterInfo> extends RecyclerAdapter 
 	protected void notifyLoadComplete(Object statusInfo) {
 		if (statusInfo instanceof StatusInfo) {
 			if (((StatusInfo) statusInfo).isSuccessful()) {
+				// LogUtils.d("-----notifyLoadComplete()--currentPage = "+currentPage);
 				this.currentPage++;
 			}
 		}
@@ -154,11 +169,13 @@ public abstract class BasicRecyclerAdapter<AdapterInfo> extends RecyclerAdapter 
 	/**
 	 * 判断是否需加载更多
 	 */
-	public abstract boolean hasMore();
+	public boolean hasMore() {
+		return hasMore;
+	}
 	
 	@Override
 	public RefreshHolder<StatusInfo> onCreateRefreshHolder() {
-		return new BasicRefreshHolder(R.mipmap.img_data_empty, R.string.data_empty);
+		return new BasicRefreshHolder(R.mipmap.img_data_empty, 0);
 	}
 	
 	@Override
@@ -276,7 +293,7 @@ public abstract class BasicRecyclerAdapter<AdapterInfo> extends RecyclerAdapter 
 		
 		@Override
 		protected void onRefresh() {
-			this.ivStatus.setImageResource(R.mipmap.ic_loading);
+			this.ivStatus.setImageResource(R.mipmap.img_refresh_status);
 			this.ivStatus.startAnimation(this.animation);
 			this.tvStatus.setText(R.string.loading_dot);
 			this.tvCheck.setVisibility(View.GONE);

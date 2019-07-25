@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.os.Build;
+
 import java.lang.ref.SoftReference;
 import java.util.ArrayList;
 import java.util.Map;
